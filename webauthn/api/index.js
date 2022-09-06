@@ -28,6 +28,10 @@ const connectionDb = async () =>{
   await mongoose.connect(
           "mongodb+srv://BrunoQuenan98:RGpxB20Oghb8LDci@demowebauthn.xcl9h2p.mongodb.net/?retryWrites=true&w=majority"
         )
+        USER_MODEL.create({
+          username: 'Bruno',
+          password: 'Pass2020$'
+        })
        console.log('Base de Datos Conectada'); 
   }catch(e){
     console.error(`Error connecting to the database. n${err}`);
@@ -67,11 +71,11 @@ app.get("/options/:id", (req, res) => {
     userID: user.id,
     userName: user.username,
     attestationType: "indirect",
-    excludeCredentials: userAuthenticators.map((authenticator) => ({
+    excludeCredentials: userAuthenticators && userAuthenticators.length ? userAuthenticators.map((authenticator) => ({
       id: authenticator.credentialID,
       type: "public-key",
       transports: authenticator.transports,
-    })),
+    })) : [],
   });
 
   setUserCurrentChallenge(user.id, options.challenge);
