@@ -23,18 +23,19 @@ const mongoose = require("mongoose");
 
 const app = express();
 const port = 8080;
-console.error('ERROR ');
-mongoose
-  .connect(
-    "mongodb+srv://BrunoQuenan98:RGpxB20Oghb8LDci@demowebauthn.xcl9h2p.mongodb.net/?retryWrites=true&w=majority"
-  )
-  .then(() => {
-    console.error('ERROR 2');
-    console.log("Connected to the database ");
-  })
-  .catch((err) => {
+const connectionDb = async () =>{
+  try{
+  await mongoose.connect(
+          "mongodb+srv://BrunoQuenan98:RGpxB20Oghb8LDci@demowebauthn.xcl9h2p.mongodb.net/?retryWrites=true&w=majority"
+        )
+       console.log('Base de Datos Conectada'); 
+  }catch(e){
     console.error(`Error connecting to the database. n${err}`);
-  });
+  }
+}
+
+connectionDb();
+  
 
 app.listen(8080, function () {
   console.log("Node server running on http://localhost:8080");
