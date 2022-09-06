@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export const Login = () => {
   const [inputs, setInputs] = useState({});
@@ -12,8 +13,14 @@ export const Login = () => {
   }
 
   const handleSubmit = async () =>{
-   // const res = await axios.post('/login', inputs);
-    navigate('/home');
+    const res = await axios.post('https://web-authn-demo-api.vercel.app/login', inputs);
+    const user = res.data;
+    if(user){
+      localStorage.setItem(JSON.stringify(user._id));
+      navigate('/home');
+    }else{
+      Swal.fire('Credenciales incorrectas', 'Por favor, intente nuevamente', 'error');
+    } 
   }
 
   return (

@@ -27,8 +27,8 @@ export const Home = () => {
   };
 
   const getCredentials = async () => {//TODO verificar ruta /auth/getKeys del backend
-    const res = await axios.get(`http://localhost:8080/credentials/${JSON.parse(window.localStorage.getItem('id'))}`);
-    setCredentials(res.data.credentials);
+    const res = await axios.get(`https://web-authn-demo-api.vercel.app/credentials/${JSON.parse(window.localStorage.getItem('id'))}`);
+    setCredentials(res.data);
   };
 
   const removeCredential = async (e) => {
