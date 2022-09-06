@@ -3,6 +3,7 @@ const { Request, Response } = require("express");
 const {
   getUserFromDB,
   setUserCurrentChallenge,
+  getOneUserQuery,
   USER_MODEL,
 } = require("./src/db/user");
 const {
@@ -39,7 +40,8 @@ const connectionDb = async () =>{
 }
 
 connectionDb();
-  
+
+app.use(express.json());
 
 app.listen(8080, function () {
   console.log("Node server running on http://localhost:8080");
@@ -51,6 +53,23 @@ const rpName = "SimpleWebAuthn Example";
 const rpID = "localhost";
 
 const origin = `https://${rpID}`;
+
+/***************************************************************/
+//*************LOGIN
+
+app.post('/login', async (req,res) =>{
+  const { username, password } = req.body;
+  const user = await getOneUserQuery({username, password});
+  return res.json(user);
+})
+
+
+
+
+
+
+/***************************************************************/
+//*************WEBAUTHN
 
 app.get("/credentials/:id", (req, res) =>{
   const { id } = req.params;

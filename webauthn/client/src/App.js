@@ -6,7 +6,7 @@ import { Reauth } from './components/Reauth';
 function App() {
   return (
      <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/reauth" element={<Reauth />} />
         <Route path="/home" element={<Home />} />
       </Routes>
