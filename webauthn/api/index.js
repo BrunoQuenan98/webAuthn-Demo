@@ -23,17 +23,14 @@ const mongoose = require("mongoose");
 
 const app = express();
 const port = 8080;
-
+console.error('ERROR ');
 mongoose
   .connect(
     "mongodb+srv://BrunoQuenan98:RGpxB20Oghb8LDci@demowebauthn.xcl9h2p.mongodb.net/?retryWrites=true&w=majority"
   )
   .then(() => {
+    console.error('ERROR 2');
     console.log("Connected to the database ");
-    USER_MODEL.create({
-      username: "bruno",
-      password: "Pass2020$",
-    });
   })
   .catch((err) => {
     console.error(`Error connecting to the database. n${err}`);
@@ -42,6 +39,7 @@ mongoose
 app.listen(8080, function () {
   console.log("Node server running on http://localhost:8080");
 });
+console.error('ERROR 2');
 
 const rpName = "SimpleWebAuthn Example";
 
