@@ -4,7 +4,7 @@ const {
   getUserFromDB,
   setUserCurrentChallenge,
   USER_MODEL,
-} = require("./db/user");
+} = require("./src/db/user");
 const {
   authenticators,
   getUserAuthenticators,
@@ -12,7 +12,7 @@ const {
   saveNewUserAuthenticatorInDB,
   saveUpdatedAuthenticatorCounter,
   AUTHENTICATOR_MODEL,
-} = require("./db/authenticator");
+} = require("./src/db/authenticator");
 const {
   generateRegistrationOptions,
   verifyRegistrationResponse,
