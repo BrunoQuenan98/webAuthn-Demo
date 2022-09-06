@@ -12,7 +12,8 @@ export const Login = () => {
     setInputs({...inputs, [e.target.name] : e.target.value})
   }
 
-  const handleSubmit = async () =>{
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
     const res = await axios.post('https://web-authn-demo-api.vercel.app/login', inputs);
     const user = res.data;
     if(user){
@@ -24,7 +25,7 @@ export const Login = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={(e) => handleSubmit}>
       <label>Usuario</label>
       <input type='text' name='username' onChange={handleInputChange}/>
       <label>Password</label>
