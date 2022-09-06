@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { webAuthn } from '../utils/webAuthn/WebAuthn';
 
 export const Home = () => {
   const [credentials, setCredentials] = useState(undefined);
@@ -26,8 +27,8 @@ export const Home = () => {
   };
 
   const getCredentials = async () => {//TODO verificar ruta /auth/getKeys del backend
-    const res = await axios.post("/auth/getKeys");
-    setCredentials(res.credentials);
+    const res = await axios.get(`http://localhost:8080/credentials/${JSON.parse(window.localStorage.getItem('id'))}`);
+    setCredentials(res.data.credentials);
   };
 
   const removeCredential = async (e) => {
@@ -39,12 +40,11 @@ export const Home = () => {
     }
   };
 
-  const handleAddCredential = () =>{
-    // registerCredential()
-    //       .then((user) => {
-    //         getCredentials();
-    //       })
-    //       .catch((e) => alert(e));
+  const handleAddCredential = async () =>{
+    webAuthn.registerCredential()
+      .then(() =>{
+         getCredentials();
+      })
   }
 
   return (
