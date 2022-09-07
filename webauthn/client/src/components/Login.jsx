@@ -17,7 +17,7 @@ export const Login = () => {
     const res = await axios.post('https://web-authn-demo-api.vercel.app/login', inputs);
     const user = res.data;
     if(user){
-      localStorage.setItem(JSON.stringify(user._id));
+      localStorage.setItem("id", JSON.stringify(user._id));
       navigate('/home');
     }else{
       Swal.fire('Credenciales incorrectas', 'Por favor, intente nuevamente', 'error');
