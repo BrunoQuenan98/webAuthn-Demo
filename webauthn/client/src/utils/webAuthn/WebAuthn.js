@@ -33,7 +33,7 @@ export const webAuthn = {
             if (error.name === 'InvalidStateError') {
                 Swal.fire('Probablemente este autenticador ya ha sido registrado', 'Por favor, intente con otro autenticador', 'error');
             } else {
-                Swal.fire('Error al registrar nueva credencial', 'Por favor, intente nuevamente', 'error');
+                Swal.fire(error.name || JSON.stringify(error, null, 2), 'Por favor, intente nuevamente', 'error');
             }
         }
     },
