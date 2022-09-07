@@ -29,12 +29,12 @@ const connectionDb = async () =>{
   await mongoose.connect(
           "mongodb+srv://BrunoQuenan98:RGpxB20Oghb8LDci@demowebauthn.xcl9h2p.mongodb.net/?retryWrites=true&w=majority"
         )
-        USER_MODEL.create({
+        await USER_MODEL.create({
           username: 'Bruno',
           password: 'Pass2020$'
         })
        console.log('Base de Datos Conectada'); 
-  }catch(e){
+  }catch(err){
     console.error(`Error connecting to the database. n${err}`);
   }
 }
