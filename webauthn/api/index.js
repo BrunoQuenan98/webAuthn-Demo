@@ -142,7 +142,7 @@ app.post("/verify-registration-response/:id", async (req, res) => {
 });
 
 app.get("/authentication-options/:id", async (req, res) => {
-  const id = req.params;
+  const { id } = req.params;
   const user = await getUserFromDB(id);
 
   const userAuthenticators = await getUserAuthenticators(id);
@@ -165,7 +165,7 @@ app.get("/authentication-options/:id", async (req, res) => {
 app.post("/verify-authentication-response/:id", async (req, res) => {
   const { body } = req;
 
-  const id = req.params;
+  const { id } = req.params;
   const user = await getUserFromDB(id);
 
   const expectedChallenge = user.currentChallenge;
