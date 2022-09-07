@@ -25,7 +25,7 @@ export const Login = () => {
   }
 
   return (
-    <form onSubmit={(e) => handleSubmit}>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <label>Usuario</label>
       <input type='text' name='username' onChange={handleInputChange}/>
       <label>Password</label>
