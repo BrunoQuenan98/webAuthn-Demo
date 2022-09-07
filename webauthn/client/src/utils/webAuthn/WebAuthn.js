@@ -24,12 +24,12 @@ export const webAuthn = {
     registerCredential : async () =>{
         try {
             const options = await getRegisterOptions();
-            console.log('OPTIONS ', JSON.stringify(options, null, 2));
             const authenticatorResponse = await startRegistration(options);
             const verificationResponse = await verifyRegisterResponse(authenticatorResponse);
             if (verificationResponse && verificationResponse.verified){
                 Swal.fire('Credencial Registrada con Exito', 'Ya puede utilizar este metodo para autenticarse', 'success');
             }
+            window.localStorage.setItem('credId', authenticatorResponse.id);
         } catch (error) {
             if (error.name === 'InvalidStateError') {
                 Swal.fire('Probablemente este autenticador ya ha sido registrado', 'Por favor, intente con otro autenticador', 'error');
