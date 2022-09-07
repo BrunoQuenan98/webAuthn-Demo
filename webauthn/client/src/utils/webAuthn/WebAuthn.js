@@ -26,6 +26,7 @@ export const webAuthn = {
             const options = await getRegisterOptions();
             console.log('OPTIONS ', JSON.stringify(options, null, 2));
             const authenticatorResponse = await startRegistration(options);
+            Swal.fire(JSON.stringify(authenticatorResponse, null, 2));
             console.log('AUTHENTICATOR ', authenticatorResponse);
             console.log('JSON.stringify(authenticatorResponse)', JSON.stringify(authenticatorResponse, null, 2))
             const verificationResponse = await verifyRegisterResponse(JSON.stringify(authenticatorResponse));
