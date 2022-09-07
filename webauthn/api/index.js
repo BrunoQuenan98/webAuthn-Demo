@@ -29,10 +29,10 @@ const connectionDb = async () =>{
   await mongoose.connect(
           "mongodb+srv://BrunoQuenan98:RGpxB20Oghb8LDci@demowebauthn.xcl9h2p.mongodb.net/?retryWrites=true&w=majority"
         )
-        await USER_MODEL.create({
-          username: 'Bruno',
-          password: 'Pass2020$'
-        })
+        // await USER_MODEL.create({
+        //   username: 'Bruno',
+        //   password: 'Pass2020$'
+        // })
        console.log('Base de Datos Conectada'); 
   }catch(err){
     console.error(`Error connecting to the database. n${err}`);
@@ -51,7 +51,7 @@ console.error('ERROR 2');
 
 const rpName = "SimpleWebAuthn Example";
 
-const rpID = "localhost";
+const rpID = "web-authn-demo.vercel.app";
 
 const origin = `https://${rpID}`;
 
@@ -72,23 +72,23 @@ app.post('/login', async (req,res) =>{
 /***************************************************************/
 //*************WEBAUTHN
 
-app.get("/credentials/:id", (req, res) =>{
+app.get("/credentials/:id", async (req, res) =>{
   const { id } = req.params;
-  const userAuthenticators = getUserAuthenticators(id);
+  const userAuthenticators = await getUserAuthenticators(id);
   return res.json(userAuthenticators);
 })
 
 
-app.get("/options/:id", (req, res) => {
+app.get("/options/:id", async (req, res) => {
   const { id } = req.params;
-  const user = getUserFromDB(id);
+  const user = await getUserFromDB(id);
 
-  const userAuthenticators = getUserAuthenticators(user.id);
+  const userAuthenticators = await getUserAuthenticators(user.id);
 
   const options = generateRegistrationOptions({
     rpName,
     rpID,
-    userID: user.id,
+    userID: user._id,
     userName: user.username,
     attestationType: "indirect",
     excludeCredentials: userAuthenticators && userAuthenticators.length ? userAuthenticators.map((authenticator) => ({
@@ -97,8 +97,8 @@ app.get("/options/:id", (req, res) => {
       transports: authenticator.transports,
     })) : [],
   });
-
-  setUserCurrentChallenge(user.id, options.challenge);
+  console.log('options', options.challenge)
+  await setUserCurrentChallenge(user._id, options.challenge);
 
   return res.json(options);
 });
@@ -107,7 +107,7 @@ app.post("/verify-registration-response/:id", async (req, res) => {
   const { body } = req;
   const { id } = req.params;
 
-  const user = getUserFromDB(id);
+  const user = await getUserFromDB(id);
 
   const expectedChallenge = user.currentChallenge;
 
@@ -136,16 +136,16 @@ app.post("/verify-registration-response/:id", async (req, res) => {
       counter,
     };
 
-    saveNewUserAuthenticatorInDB(newAuthenticator);
+    await saveNewUserAuthenticatorInDB(newAuthenticator);
   }
   return res.json(verified);
 });
 
-app.get("/authentication-options/:id", (req, res) => {
+app.get("/authentication-options/:id", async (req, res) => {
   const id = req.params;
-  const user = getUserFromDB(id);
+  const user = await getUserFromDB(id);
 
-  const userAuthenticators = getUserAuthenticators(id);
+  const userAuthenticators = await getUserAuthenticators(id);
 
   const options = generateAuthenticationOptions({
     allowCredentials: userAuthenticators.map((authenticator) => ({
@@ -157,7 +157,7 @@ app.get("/authentication-options/:id", (req, res) => {
     userVerification: "preferred",
   });
 
-  setUserCurrentChallenge(user.id, options.challenge);
+  await setUserCurrentChallenge(user._id, options.challenge);
 
   return res.json(options);
 });
@@ -166,11 +166,11 @@ app.post("/verify-authentication-response/:id", async (req, res) => {
   const { body } = req;
 
   const id = req.params;
-  const user = getUserFromDB(id);
+  const user = await getUserFromDB(id);
 
   const expectedChallenge = user.currentChallenge;
 
-  const authenticator = getUserAuthenticator(id);
+  const authenticator = await getUserAuthenticator(id);
 
   if (!authenticator) {
     throw new Error(`Could not find authenticator`);
@@ -194,7 +194,7 @@ app.post("/verify-authentication-response/:id", async (req, res) => {
   if (verified) {
     const { authenticationInfo } = verification;
     const { newCounter } = authenticationInfo;
-    saveUpdatedAuthenticatorCounter(authenticator, newCounter);
+    await saveUpdatedAuthenticatorCounter(authenticator, newCounter);
   }
   return res.json(verified);
 });
