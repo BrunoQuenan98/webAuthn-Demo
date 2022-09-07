@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { webAuthn } from "../utils/webAuthn/WebAuthn";
 
 const ReAuthentication = styled.div`
   display: ${(props) => (props.hidden === "hidden" ? "none" : "")};
@@ -49,21 +50,9 @@ export const Reauth = () => {
     setDisplayReAuthenticate(false);
   };
 
-  const handleAuthenticate = () => {
-    // authenticate()
-    //   .then((user) => {
-    //     if (user) {
-    //       navigate("/home");
-    //     } else {
-    //       throw "User not found.";
-    //     }
-    //   })
-    //   .catch((e) => {
-    //     console.error(e.message || e);
-    //     alert("Authentication failed. Use password to sign-in.");
-    //     setDisplayForm(true);
-    //     setDisplayReAuthenticate(false);
-    //   });
+  const handleAuthenticate = async () => {
+    const authenticated = await webAuthn.authenticate();
+    authenticated ? navigate("/home") : navigate("/")
   };
 
   return (
