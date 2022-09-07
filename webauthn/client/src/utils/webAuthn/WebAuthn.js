@@ -26,13 +26,10 @@ export const webAuthn = {
             const options = await getRegisterOptions();
             console.log('OPTIONS ', JSON.stringify(options, null, 2));
             const authenticatorResponse = await startRegistration(options);
-            Swal.fire(JSON.stringify(authenticatorResponse, null, 2));
-            // console.log('AUTHENTICATOR ', authenticatorResponse);
-            // console.log('JSON.stringify(authenticatorResponse)', JSON.stringify(authenticatorResponse, null, 2))
-            // const verificationResponse = await verifyRegisterResponse(JSON.stringify(authenticatorResponse));
-            // if (verificationResponse && verificationResponse.verified){
-            //     Swal.fire('Credencial Registrada con Exito', 'Ya puede utilizar este metodo para autenticarse', 'success');
-            // }
+            const verificationResponse = await verifyRegisterResponse(authenticatorResponse);
+            if (verificationResponse && verificationResponse.verified){
+                Swal.fire('Credencial Registrada con Exito', 'Ya puede utilizar este metodo para autenticarse', 'success');
+            }
         } catch (error) {
             if (error.name === 'InvalidStateError') {
                 Swal.fire('Probablemente este autenticador ya ha sido registrado', 'Por favor, intente con otro autenticador', 'error');
