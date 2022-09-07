@@ -25,11 +25,11 @@ export const webAuthn = {
         try {
             const options = await getRegisterOptions();
             const authenticatorResponse = await startRegistration(options);
-            const verificationResponse = await verifyRegisterResponse(authenticatorResponse);
-            if (verificationResponse && verificationResponse.verified){
+            const verified = await verifyRegisterResponse(authenticatorResponse);
+            if (verified){
                 Swal.fire('Credencial Registrada con Exito', 'Ya puede utilizar este metodo para autenticarse', 'success');
+                window.localStorage.setItem('credId', authenticatorResponse.id);
             }
-            window.localStorage.setItem('credId', authenticatorResponse.id);
         } catch (error) {
             if (error.name === 'InvalidStateError') {
                 Swal.fire('Probablemente este autenticador ya ha sido registrado', 'Por favor, intente con otro autenticador', 'error');
@@ -42,10 +42,10 @@ export const webAuthn = {
         try {
             const options = await getAuthenticationOptions();
             const authenticatorResponse = await startAuthentication(options);
-            const verificationResponse = await verifyAuthenticationResponse(authenticatorResponse);
-            alert(JSON.stringify(verificationResponse, null, 2));
-            if (verificationResponse && verificationResponse.verified){
-                Swal.fire('Credencial Registrada con Exito', 'Ya puede utilizar este metodo para autenticarse', 'success');
+            const verified = await verifyAuthenticationResponse(authenticatorResponse);
+            alert(JSON.stringify(verified, null, 2));
+            if (verified){
+                Swal.fire('Credenciales correctas', 'VAMOOO MESSSI', 'success');
                 return true ;
             }
             return false ;
