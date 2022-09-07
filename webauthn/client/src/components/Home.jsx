@@ -62,7 +62,7 @@ export const Home = () => {
         credentials.map((cred) => {
           return <span>{JSON.stringify(cred, null, 2)}</span>;
         })}
-      <button disabled={userCanAddCredentials} onClick={handleAddCredential}>Add a credential</button>
+      <button onClick={handleAddCredential}>Add a credential</button>
       <button onClick={() => navigate('/reauth')}>Try Reauth</button>
       <button>Sign Out</button>
     </div>
