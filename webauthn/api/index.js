@@ -121,7 +121,7 @@ app.post("/verify-registration-response/:id", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    return res.status(400).send({ error: error.message });
+    return res.status(400).send({ error: error.message , body });
   }
 
   const { verified } = verification;
