@@ -42,12 +42,15 @@ export const webAuthn = {
         try {
             const options = await getAuthenticationOptions();
             const authenticatorResponse = await startAuthentication(options);
-            const verificationResponse = await verifyAuthenticationResponse(JSON.stringify(authenticatorResponse));
+            const verificationResponse = await verifyAuthenticationResponse(authenticatorResponse);
             if (verificationResponse && verificationResponse.verified){
                 Swal.fire('Credencial Registrada con Exito', 'Ya puede utilizar este metodo para autenticarse', 'success');
+                return true ;
             }
+            return false ;
         } catch (error) {
             Swal.fire('Error al autenticarse', 'Por favor, intente nuevamente', 'error');
+            return false ;
         }
     }
 }
