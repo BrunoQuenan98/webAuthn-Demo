@@ -1,5 +1,5 @@
 const express = require("express");
-const { Request, Response } = require("express");
+const cors = require('cors');
 const {
   getUserFromDB,
   setUserCurrentChallenge,
@@ -42,6 +42,7 @@ const connectionDb = async () =>{
 connectionDb();
 
 app.use(express.json());
+app.use(cors());
 
 app.listen(8080, function () {
   console.log("Node server running on http://localhost:8080");
