@@ -65,7 +65,6 @@ export const Home = () => {
       <button onClick={handleAddCredential}>Add a credential</button>
       <button onClick={() => navigate('/reauth')}>Try Reauth</button>
       <button>Sign Out</button>
-        {window.localStorage.getItem('credId') && JSON.stringify(window.localStorage.getItem('credId'))}
     </div>
   );
 };

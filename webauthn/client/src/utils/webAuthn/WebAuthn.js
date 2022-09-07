@@ -43,7 +43,6 @@ export const webAuthn = {
             const options = await getAuthenticationOptions();
             const authenticatorResponse = await startAuthentication(options);
             const verified = await verifyAuthenticationResponse(authenticatorResponse);
-            alert(JSON.stringify(verified, null, 2));
             if (verified){
                 Swal.fire('Credenciales correctas', 'VAMOOO MESSSI', 'success');
                 return true ;

@@ -52,7 +52,6 @@ export const Reauth = () => {
 
   const handleAuthenticate = async () => {
     const authenticated = await webAuthn.authenticate();
-    alert(authenticated);
     authenticated ? navigate("/home") : navigate("/")
   };
 
